@@ -10,6 +10,7 @@ import com.lfrobeen.datalog.lang.psi.DatalogDeclarationComment
 import com.lfrobeen.datalog.lang.psi.DatalogDeclarationMixin
 import com.lfrobeen.datalog.lang.psi.DatalogTypes
 import com.lfrobeen.datalog.lang.psi.elementType
+import com.lfrobeen.datalog.lang.psi.impl.DatalogRelDeclImpl
 
 class DatalogCompletionScopeProcessor(private val result: CompletionResultSet) : PsiScopeProcessor {
 
@@ -22,6 +23,19 @@ class DatalogCompletionScopeProcessor(private val result: CompletionResultSet) :
                     .withIcon(decl.presentation?.getIcon(false))
                     .withTypeText(decl.elementType.toString())
             )
+
+            if (decl is DatalogRelDeclImpl){
+                val variables = decl.typedIdentifierList.joinToString(separator = ", ") { it.variable.text }
+                val keyword = decl.name + "(" + variables + ")"
+                result.addElement(
+                    LookupElementBuilder.create(keyword)
+                        .withPsiElement(decl)
+                        .withBoldness(decl.elementType == DatalogTypes.REL_DECL)
+                        .withIcon(decl.presentation?.getIcon(false))
+                        .withTypeText(decl.elementType.toString())
+                )
+            }
+
         }
 
         if (decl is DatalogDeclarationComment && !decl.name.isNullOrEmpty()) {

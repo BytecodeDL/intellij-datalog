@@ -11,6 +11,11 @@ For a list of changes in the newest version, please refer to the [changelog](./C
 ## 改进
 1. 增加了multi head的支持
 2. 增加了ByteCodeDL用到的一些语法比如`#if` `#paragma`等
+3. 增加了relation全部参数的自动补全
+![re](./img/relation_all_param_completion.png)
+
+## 遗留问题
+1. 本来想支持`cat`等内置的函数，但是和MacroExpr冲突了，不知道怎么解决
 
 ## Features
 

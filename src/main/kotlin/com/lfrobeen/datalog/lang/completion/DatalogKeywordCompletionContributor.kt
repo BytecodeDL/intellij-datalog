@@ -31,7 +31,8 @@ class DatalogKeywordCompletionContributor : CompletionContributor() {
                 "#ifdef",
                 "#ifndef",
                 "#endif",
-                "#define"
+                "#define",
+                "#paragma",
             )
         )
     }
