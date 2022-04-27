@@ -19,6 +19,7 @@
     LINE_BREAK = 'regexp:\r|\n|\r\n'
 
     INCLUDE_DIRECTIVE = "#include"
+    IF_DIRECTIVE = "#if"
     IFDEF_DIRECTIVE = "#ifdef"
     IFNDEF_DIRECTIVE = "#ifndef"
     ELIF_DIRECTIVE = "#elif"
@@ -156,7 +157,7 @@ private ProgramElement_first ::= (
     ".input" | ".output" | ".printsize" |
     ".pragma" |
     ".symbol_type" | ".number_type" |
-    DEFINE_DIRECTIVE | IFDEF_DIRECTIVE | IFNDEF_DIRECTIVE | ENDIF_DIRECTIVE | INCLUDE_DIRECTIVE |
+    DEFINE_DIRECTIVE | IF_DIRECTIVE | ELSE_DIRECTIVE | IFDEF_DIRECTIVE | IFNDEF_DIRECTIVE | ENDIF_DIRECTIVE | INCLUDE_DIRECTIVE |
     IDENTIFIER)
 
 
@@ -180,8 +181,10 @@ ComponentTyped ::= AnyRef ("<"TypeReference ("," TypeReference)*">")?
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Preprocessor
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-Preprocessor ::= (IFDEF_DIRECTIVE AnyRef)
-               | (IFNDEF_DIRECTIVE AnyRef)
+Preprocessor ::= (IF_DIRECTIVE IDENTIFIER ("<" | "==" | ">") Constant)
+               | ELSE_DIRECTIVE
+               | (IFDEF_DIRECTIVE IDENTIFIER)
+               | (IFNDEF_DIRECTIVE IDENTIFIER)
                | ENDIF_DIRECTIVE
                | Include
                | (MacroDecl (LINE_BREAK | <<eof>>))
@@ -284,7 +287,7 @@ Clause ::= ClauseHead ":-" ClauseBody "." {
 
 private Clause_recover ::= !("}" | ProgramElement_first)
 
-ClauseHead ::= Atom
+ClauseHead ::= Atom ("," Atom)*
 ClauseBody ::= Predicate {pin=1 recoverWhile=ClauseBody_recover}
 
 private ClauseBody_recover ::= !(ProgramElement_first | ".")

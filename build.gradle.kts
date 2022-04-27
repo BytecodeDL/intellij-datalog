@@ -27,7 +27,7 @@ apply {
 
 repositories {
     mavenCentral()
-    maven("https://dl.bintray.com/jetbrains/markdown")
+    //maven("https://dl.bintray.com/jetbrains/markdown")
     maven("https://plugins.gradle.org/m2/")
 }
 

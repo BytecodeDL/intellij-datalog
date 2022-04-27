@@ -16,14 +16,18 @@ class DatalogRuleToRelationLineMarkerProvider : RelatedItemLineMarkerProvider() 
         if (element !is DatalogClause)
             return
 
-        val relationRef = element.clauseHead.atom.anyReference.reference
-        val relation = relationRef?.resolve() as? DatalogRelDeclImpl ?: return
+        val atoms = element.clauseHead.atomList
+        atoms.forEach {
+            val relationRef = it.anyReference.reference
+            val relation = relationRef?.resolve() as? DatalogRelDeclImpl ?: return
 
-        val builder = NavigationGutterIconBuilder
-            .create(AllIcons.Gutter.ImplementingMethod)
-            .setTargets(listOf(relation))
-            .setTooltipText("Rule for relation ${relation.name}")
+            val builder = NavigationGutterIconBuilder
+                .create(AllIcons.Gutter.ImplementingMethod)
+                .setTargets(listOf(relation))
+                .setTooltipText("Rule for relation ${relation.name}")
 
-        result.add(builder.createLineMarkerInfo(element))
+            result.add(builder.createLineMarkerInfo(element))
+        }
+
     }
 }

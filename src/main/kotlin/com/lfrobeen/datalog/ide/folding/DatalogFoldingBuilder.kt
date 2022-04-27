@@ -44,7 +44,7 @@ class DatalogFoldingBuilder : FoldingBuilderEx() {
 
             is DatalogStatement ->
                 return node.fact?.atom?.anyReference?.text?.let { "$it(...)." }
-                    ?: node.clause?.clauseHead?.atom?.anyReference?.text?.let { "$it(...) :- (...)." }
+//                    ?: node.clause?.clauseHead?.atomList?.anyReference?.text?.let { "$it(...) :- (...)." }
                     ?: "..."
         }
 

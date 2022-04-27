@@ -56,6 +56,7 @@ MACRO_CONTINUATION = \\[ \t\f]*{LINE_BREAK}
   {WHITE_SPACE}         { return WHITE_SPACE; }
 
   "#include"            { return INCLUDE_DIRECTIVE; }
+  "#if"                 {return IF_DIRECTIVE; }
   "#ifdef"              { return IFDEF_DIRECTIVE; }
   "#ifndef"             { return IFNDEF_DIRECTIVE; }
   "#elif"               { return ELIF_DIRECTIVE; }
