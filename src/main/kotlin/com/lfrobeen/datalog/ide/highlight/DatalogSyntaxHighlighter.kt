@@ -36,7 +36,7 @@ class DatalogSyntaxHighlighter : SyntaxHighlighterBase() {
 
             // IDENTIFIER -> DatalogColors.IDENTIFIER
 
-            DEFINE_DIRECTIVE, INCLUDE_DIRECTIVE,
+            DEFINE_DIRECTIVE, INCLUDE_DIRECTIVE, PARAGMA_DIRECTIVE,
             IF_DIRECTIVE, ELSE_DIRECTIVE, IFDEF_DIRECTIVE, IFNDEF_DIRECTIVE, ENDIF_DIRECTIVE ->
                 DatalogColors.PREPROCESSOR
 

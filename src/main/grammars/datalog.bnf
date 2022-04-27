@@ -26,6 +26,7 @@
     ELSE_DIRECTIVE = "#else"
     ENDIF_DIRECTIVE = "#endif"
     DEFINE_DIRECTIVE = "#define"
+    PARAGMA_DIRECTIVE = "#paragma"
 
     FLOAT_TYPE = "float"
     NUMBER_TYPE = "number"
@@ -157,7 +158,7 @@ private ProgramElement_first ::= (
     ".input" | ".output" | ".printsize" |
     ".pragma" |
     ".symbol_type" | ".number_type" |
-    DEFINE_DIRECTIVE | IF_DIRECTIVE | ELSE_DIRECTIVE | IFDEF_DIRECTIVE | IFNDEF_DIRECTIVE | ENDIF_DIRECTIVE | INCLUDE_DIRECTIVE |
+    DEFINE_DIRECTIVE | IF_DIRECTIVE | ELSE_DIRECTIVE | IFDEF_DIRECTIVE | IFNDEF_DIRECTIVE | ENDIF_DIRECTIVE | INCLUDE_DIRECTIVE | PARAGMA_DIRECTIVE |
     IDENTIFIER)
 
 
@@ -187,6 +188,7 @@ Preprocessor ::= (IF_DIRECTIVE IDENTIFIER ("<" | "==" | ">") Constant)
                | (IFNDEF_DIRECTIVE IDENTIFIER)
                | ENDIF_DIRECTIVE
                | Include
+               | (PARAGMA_DIRECTIVE IDENTIFIER)
                | (MacroDecl (LINE_BREAK | <<eof>>))
                | MacroInvocation
 
@@ -243,6 +245,7 @@ InDeclIOOpt ::= "filename" "=" STRING
               | "columns" "=" STRING
               | "headers" "=" STRING
               | "rfc4180" "=" ("true" | "false")
+              | "delimiter" "=" STRING
 InDeclParam ::= InDeclIO | InDeclIOOpt
 
 OutDeclIO ::= "IO" "=" ("stdout" | "file" | "sqlite")
@@ -345,7 +348,12 @@ AssocExpr ::= "(" Argument ")"
 TupleExpr ::= <<listCommaBracket Argument>> "]" | "[" "]"
 
 FunctorExpr ::= "@" AnyRef <<listCommaParens Argument>> ")"
-MacroExpr ::= AnyRef <<listCommaParens (Argument | MacroParameter)>> ")"
+
+//IntrinsicFunctor ::= "ord" | "to_float" | "to_number" | "to_string"
+//                      | "to_unsigned" | "cat" | "strlen" | "substr" | "autoinc"
+//IntrinsicFunctorExpr ::= IntrinsicFunctor ArgumentList
+
+MacroExpr ::= IDENTIFIER <<listCommaParens (Argument | MacroParameter)>> ")"
 
 BinOpExpr ::= Argument BinOp Argument
 AsExpr ::= Argument "as" Variable

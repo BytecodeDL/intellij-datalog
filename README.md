@@ -8,6 +8,10 @@
 # Datalog Plugin for the IntelliJ Platform
 For a list of changes in the newest version, please refer to the [changelog](./CHANGELOG.md).
 
+## 改进
+1. 增加了multi head的支持
+2. 增加了ByteCodeDL用到的一些语法比如`#if` `#paragma`等
+
 ## Features
 
 ### Syntax Highlighting
