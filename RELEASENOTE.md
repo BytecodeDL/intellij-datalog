@@ -1,3 +1,4 @@
-1. fix multi head 
-2. add relation parameter completion
-3. fix parameter info hint
+v2.0.1
+2. fix multi head 
+3. add relation parameter completion
+4. fix parameter info hint
