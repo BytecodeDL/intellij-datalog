@@ -1,5 +1,11 @@
 # Changelog 
 
+## 2.0.1
+
+1. fix multi head
+2. add relation parameter completion
+3. fix parameter info hint
+
 ## 2.0.0
 
 ### Syntax and Language Support

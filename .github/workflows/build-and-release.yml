@@ -5,12 +5,10 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: Release To Github
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 permissions:
@@ -28,8 +26,10 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name : buildPlugin
+    - name: Build plugin
       run: |
         ./gradlew buildPlugin
-    - run: |
-        ls -al build/distributions
+    - name: Release plugin
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release create ${{ github.event.release.tag_name }} ./build/distributions/* -F RELEASENOTE.md
