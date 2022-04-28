@@ -12,7 +12,7 @@ class DatalogParameterInfoHandler : ParameterInfoHandler<PsiElement, DatalogRelD
     }
 
     override fun updateParameterInfo(parameterOwner: PsiElement, context: UpdateParameterInfoContext) {
-//        context.setCurrentParameter(0)
+
     }
 
     override fun updateUI(p: DatalogRelDecl?, context: ParameterInfoUIContext) {
@@ -51,39 +51,57 @@ class DatalogParameterInfoHandler : ParameterInfoHandler<PsiElement, DatalogRelD
     }
 
     override fun findElementForUpdatingParameterInfo(context: UpdateParameterInfoContext): PsiElement? {
-        var offset = context.offset
+        var offsetToLeft = context.offset
         var element:PsiElement? = null
         var index = 0
-        while (offset > 0){
-            element = context.file.findElementAt(offset)
+        var rightParenthesis:PsiElement? = findRightParenthesis(context)
+
+        while (offsetToLeft > 0){
+            element = context.file.findElementAt(offsetToLeft)
             if (element?.text == ","){
                 index++
             }
             if (element?.text == "("){
                 break
             }
-            offset--
+            offsetToLeft--
         }
 
         context.setCurrentParameter(index)
-        val rightParenthesis = context.file.findElementAt(context.offset)
 
         return rightParenthesis
     }
 
     override fun findElementForParameterInfo(context: CreateParameterInfoContext): PsiElement? {
-        var offset = context.offset
+        var offsetToLeft = context.offset
         var element:PsiElement? = null
-        while (offset > 0){
-            element = context.file.findElementAt(offset)
+        val rightParenthesis = findRightParenthesis(context)
+
+        while (offsetToLeft > 0){
+            element = context.file.findElementAt(offsetToLeft)
             if (element?.parent?.reference is DatalogReference){
                 break
             }
-            offset--
+            offsetToLeft--
         }
         val decl = element?.parent?.reference?.resolve()
 
         context.itemsToShow = arrayOf(decl)
-        return context.file.findElementAt(context.offset)
+        return rightParenthesis
+    }
+
+    private fun findRightParenthesis(context: ParameterInfoContext): PsiElement? {
+        var offsetToRight = context.offset
+        var rightParenthesis:PsiElement? = null
+
+        while (offsetToRight < context.file.textLength){
+            var element = context.file.findElementAt(offsetToRight)
+            if (element?.text == ")"){
+                rightParenthesis = element
+                break
+            }
+            offsetToRight++
+        }
+        return rightParenthesis
     }
 }
