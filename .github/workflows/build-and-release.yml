@@ -21,12 +21,12 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-#    - name: Build plugin
-#      run: |
-#        ./gradlew buildPlugin
+    - name: Build plugin
+      run: |
+        ./gradlew buildPlugin
     - name: Release plugin
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         tag=$(sed -n '1p' RELEASENOTE.md)
-        gh release create $tag RELEASENOTE.md -F RELEASENOTE.md
+        gh release create $tag ./build/distributions/* -F RELEASENOTE.md
