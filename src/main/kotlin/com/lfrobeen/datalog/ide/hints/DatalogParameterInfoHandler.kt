@@ -1,17 +1,18 @@
 package com.lfrobeen.datalog.ide.hints
 
-import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.lang.parameterInfo.*
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parentOfType
+import com.lfrobeen.datalog.DatalogReference
 import com.lfrobeen.datalog.lang.psi.*
 
-class DatalogParameterInfoHandler : ParameterInfoHandler<DatalogArgumentList, DatalogRelDecl> {
-    override fun showParameterInfo(element: DatalogArgumentList, context: CreateParameterInfoContext) {
+class DatalogParameterInfoHandler : ParameterInfoHandler<PsiElement, DatalogRelDecl> {
+    override fun showParameterInfo(element: PsiElement, context: CreateParameterInfoContext) {
         context.showHint(element, element.textRange.startOffset, this)
     }
 
-    override fun updateParameterInfo(parameterOwner: DatalogArgumentList, context: UpdateParameterInfoContext) {
+    override fun updateParameterInfo(parameterOwner: PsiElement, context: UpdateParameterInfoContext) {
+//        context.setCurrentParameter(0)
     }
 
     override fun updateUI(p: DatalogRelDecl?, context: ParameterInfoUIContext) {
@@ -49,38 +50,40 @@ class DatalogParameterInfoHandler : ParameterInfoHandler<DatalogArgumentList, Da
         )
     }
 
-    override fun getParametersForLookup(item: LookupElement?, context: ParameterInfoContext?): Array<Any>? = null
-
-    override fun findElementForUpdatingParameterInfo(context: UpdateParameterInfoContext): DatalogArgumentList? {
-        val atom = getAtom(context.file.findElementAt(context.offset))
-        val argumentList = atom?.argumentList
-
-        if (argumentList != null) {
-            val index = ParameterInfoUtils.getCurrentParameterIndex(
-                argumentList.node,
-                context.offset,
-                DatalogTypes.COMMA
-            )
-            context.setCurrentParameter(index)
+    override fun findElementForUpdatingParameterInfo(context: UpdateParameterInfoContext): PsiElement? {
+        var offset = context.offset
+        var element:PsiElement? = null
+        var index = 0
+        while (offset > 0){
+            element = context.file.findElementAt(offset)
+            if (element?.text == ","){
+                index++
+            }
+            if (element?.text == "("){
+                break
+            }
+            offset--
         }
 
-        return atom?.argumentList
+        context.setCurrentParameter(index)
+        val rightParenthesis = context.file.findElementAt(context.offset)
+
+        return rightParenthesis
     }
 
-    override fun findElementForParameterInfo(context: CreateParameterInfoContext): DatalogArgumentList? {
-        val atom = getAtom(context.file.findElementAt(context.offset)) ?: return null
-
-        val declRef = atom.anyReference.reference
-        val decl = declRef?.resolve() as? DatalogRelDecl
+    override fun findElementForParameterInfo(context: CreateParameterInfoContext): PsiElement? {
+        var offset = context.offset
+        var element:PsiElement? = null
+        while (offset > 0){
+            element = context.file.findElementAt(offset)
+            if (element?.parent?.reference is DatalogReference){
+                break
+            }
+            offset--
+        }
+        val decl = element?.parent?.reference?.resolve()
 
         context.itemsToShow = arrayOf(decl)
-
-        return atom.argumentList
+        return context.file.findElementAt(context.offset)
     }
-
-    private fun getAtom(psiElement: PsiElement?): DatalogAtom? =
-        psiElement as? DatalogAtom ?: psiElement?.parentOfType()
-
-    override fun couldShowInLookup(): Boolean = true
-
 }
