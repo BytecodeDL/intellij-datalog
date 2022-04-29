@@ -36,7 +36,7 @@
         ]]>
     </change-notes>
 
-    <version>2.0.0</version>
+    <version>2.0.2</version>
 
     <idea-version since-build="203.5981.155"/>
 
@@ -113,7 +113,7 @@
         <additionalTextAttributes scheme="Default" file="datalog/ide/colors/DatalogDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="datalog/ide/colors/DatalogDarcula.xml"/>
 
-        <postStartupActivity implementation="com.lfrobeen.datalog.ide.activity.DatalogPluginUpdateActivity"/>
+<!--        <postStartupActivity implementation="com.lfrobeen.datalog.ide.activity.DatalogPluginUpdateActivity"/>-->
 
         <applicationService serviceImplementation="com.lfrobeen.datalog.ide.settings.DatalogPluginSettings"/>
     </extensions>
