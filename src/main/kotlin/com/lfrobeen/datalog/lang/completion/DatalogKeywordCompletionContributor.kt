@@ -33,6 +33,8 @@ class DatalogKeywordCompletionContributor : CompletionContributor() {
                 "#endif",
                 "#define",
                 "#pragma",
+                "match",
+                "contains",
             )
         )
     }

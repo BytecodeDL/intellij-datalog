@@ -102,6 +102,8 @@ MACRO_CONTINUATION = \\[ \t\f]*{LINE_BREAK}
   "max"                 { return MAX; }
   "min"                 { return MIN; }
   "sum"                 { return SUM; }
+  "match"               { return MATCH; }
+  "contains"            { return CONTAINS; }
 
   "lnot"                { return LNOT; }
   "lor"                 { return LOR; }

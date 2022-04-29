@@ -77,6 +77,9 @@
     MAX="min"
     SUM="sum"
 
+    CONTAINS = "contains"
+    MATCH = "match"
+
     IDENTIFIER = 'regexp:[_?a-zA-Z][_?a-zA-Z0-9]+|[?a-zA-Z]'
 
     LESS_COLON='<:'
