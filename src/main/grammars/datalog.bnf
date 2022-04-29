@@ -26,7 +26,7 @@
     ELSE_DIRECTIVE = "#else"
     ENDIF_DIRECTIVE = "#endif"
     DEFINE_DIRECTIVE = "#define"
-    PARAGMA_DIRECTIVE = "#paragma"
+    PRAGMA_DIRECTIVE_ = "#pragma"
 
     FLOAT_TYPE = "float"
     NUMBER_TYPE = "number"
@@ -158,7 +158,7 @@ private ProgramElement_first ::= (
     ".input" | ".output" | ".printsize" |
     ".pragma" |
     ".symbol_type" | ".number_type" |
-    DEFINE_DIRECTIVE | IF_DIRECTIVE | ELSE_DIRECTIVE | IFDEF_DIRECTIVE | IFNDEF_DIRECTIVE | ENDIF_DIRECTIVE | INCLUDE_DIRECTIVE | PARAGMA_DIRECTIVE |
+    DEFINE_DIRECTIVE | IF_DIRECTIVE | ELSE_DIRECTIVE | IFDEF_DIRECTIVE | IFNDEF_DIRECTIVE | ENDIF_DIRECTIVE | INCLUDE_DIRECTIVE | PRAGMA_DIRECTIVE_ |
     IDENTIFIER)
 
 
@@ -188,7 +188,7 @@ Preprocessor ::= (IF_DIRECTIVE IDENTIFIER ("<" | "==" | ">") Constant)
                | (IFNDEF_DIRECTIVE IDENTIFIER)
                | ENDIF_DIRECTIVE
                | Include
-               | (PARAGMA_DIRECTIVE IDENTIFIER)
+               | (PRAGMA_DIRECTIVE_ IDENTIFIER)
                | (MacroDecl (LINE_BREAK | <<eof>>))
                | MacroInvocation
 
