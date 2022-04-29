@@ -1,5 +1,10 @@
 # Changelog 
 
+## 2.0.2
+
+1. fix typo paragma to pragma
+2. remove postStartupActivity
+
 ## 2.0.1
 
 1. fix multi head
