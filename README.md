@@ -13,7 +13,7 @@ For a list of changes in the newest version, please refer to the [changelog](./C
 
 ## 改进
 1. 增加了multi head的支持
-2. 增加了ByteCodeDL用到的一些语法比如`#if` `#pragma`等
+2. 增加了ByteCodeDL用到的一些语法比如`#if` `#pragma` `contains`等
 3. 增加了relation全部参数的自动补全
 ![relation_completion](./img/relation_all_param_completion.png)
 4. 修复了参数提示

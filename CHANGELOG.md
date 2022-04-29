@@ -1,5 +1,8 @@
 # Changelog 
 
+## v2.0.3
+1. add token `match` and `contains`
+
 ## 2.0.2
 
 1. fix typo paragma to pragma
